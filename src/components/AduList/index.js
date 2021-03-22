@@ -14,30 +14,38 @@ const FIRST_ADU = {
 };
 
 const AduList = () => {
-  const [AduList, setAduList] = useState([FIRST_ADU]);
+  const [AduList, setAduList] = useState([]);
   const [AduFormVisibility, setAduFormVisibilty] = useState(false);
   const [ActiveAdu, setActiveAdu] = useState(null);
 
-  const addNewAdu = (e) => {
+  const updateAduList = (e) => {
     e.preventDefault();
 
-    const prevAduList = AduList;
-    setAduList(
-      prevAduList.append({
-        id: prevAduList.length,
-        firstName: e.firstName,
-        lastName: e.lastName,
-        address: e.lastName,
-        br: e.br,
-        ba: e.ba,
-        sqft: e.sqft,
-        price: e.price,
-      })
-    );
+    console.log({ form: e.target });
+
+    if (AduList.filter((adu) => adu.id === e.id).length > 0) {
+    } else {
+      setAduList([
+        ...AduList,
+        {
+          id: AduList.length,
+          firstName: e.target.firstName,
+          lastName: e.target.lastName,
+          address: e.target.lastName,
+          br: e.target.br,
+          ba: e.target.ba,
+          sqft: e.target.sqft,
+          price: e.target.price,
+        },
+      ]);
+      setAduFormVisibilty(false);
+    }
+
+    console.log({ AduList });
   };
 
   const editAdu = (id) => {
-    // setAduList;
+    setActiveAdu(AduList.filter((adu) => adu.id === id));
   };
 
   const removeAdu = (id) => {
@@ -64,22 +72,9 @@ const AduList = () => {
       </ul>
       {AduFormVisibility && (
         <AduForm
-          firstName={ActiveAdu ? ActiveAdu.firstName : null}
-          lastName={ActiveAdu ? ActiveAdu.lastName : null}
-          address={ActiveAdu ? ActiveAdu.address : null}
-          br={ActiveAdu ? ActiveAdu.br : null}
-          ba={ActiveAdu ? ActiveAdu.ba : null}
-          sqft={ActiveAdu ? ActiveAdu.sqft : null}
-          price={ActiveAdu ? ActiveAdu.price : null}
-          handleSubmit={
-            ActiveAdu
-              ? () => {
-                  editAdu(ActiveAdu.id);
-                }
-              : () => {
-                  removeAdu(ActiveAdu.id);
-                }
-          }
+          adu={ActiveAdu ? ActiveAdu : {}}
+          handleSubmit={updateAduList}
+          subitButtonValue={ActiveAdu ? 'Update' : 'Submit'}
         />
       )}
     </div>

@@ -1,39 +1,47 @@
 import React from 'react';
 
 const AduForm = (props) => {
+  const { id, firstName, lastName, address, br, ba, sqft, price } = props.adu;
   return (
     <form onSubmit={props.handleSubmit}>
+      <input type="hidden" value={id} />
       <input
         type="text"
         label="First Name"
         placeholder="first name"
-        value={props.firstName}
+        value={firstName}
       />
       <input
         type="text"
         label="Last Name"
         placeholder="last name"
-        value={props.lastName}
+        value={lastName}
+      />
+      <input
+        type="text"
+        label="Address"
+        placeholder="Address"
+        value={address}
       />
       <input
         type="text"
         label="Bathrooms"
         placeholder="number of bathrooms"
-        value={props.ba}
+        value={ba}
       />
       <input
         type="text"
         label="Bedrooms"
         placeholder="number of bedrooms"
-        value={props.br}
+        value={br}
       />
       <input
         type="text"
         label="Square Feet"
         placeholder="square feet"
-        value={props.sqft}
+        value={sqft}
       />
-      <input type="text" label="$" placeholder="price" value={props.price} />
+      <input type="text" label="$" placeholder="price" value={price} />
       <input type="submit" value={props.submitBtnValue} />
     </form>
   );
