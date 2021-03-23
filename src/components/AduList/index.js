@@ -21,7 +21,6 @@ const AduList = () => {
   const [updateOrAdd, setUpdateOrAdd] = useState('ADD');
 
   const updateAduList = (values) => {
-    console.log({ values });
     setAduList([...AduList, values.values]);
 
     if (AduFormVisibility) {
@@ -33,13 +32,12 @@ const AduList = () => {
     }
 
     setActiveAdu(DEFAULT_ADU);
-
-    console.log({ AduList, ActiveAdu });
   };
 
   const editAdu = (id) => {
     setUpdateOrAdd('UPDATE');
     setActiveAdu(AduList.filter((adu) => adu.id === id)[0]);
+    console.log({ id, updateOrAdd, ActiveAdu });
     setAduFormVisibilty(true);
   };
 

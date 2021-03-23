@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const AduItem = (props) => {
   const { id, firstName, lastName, address, br, ba, sqft, price } = props.adu;
+  console.log({ props });
   return (
     <div className="adu-item">
       <h4>
