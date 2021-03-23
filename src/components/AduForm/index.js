@@ -4,6 +4,7 @@ const AduForm = (props) => {
   const { handleChange, handleSubmit, values, submitBtnText } = props;
   return (
     <form onSubmit={handleSubmit}>
+      <input type="hidden" value={values.id} />
       <>
         <label>First Name</label>
         <input
@@ -75,7 +76,7 @@ const AduForm = (props) => {
         />
       </>
 
-      <button type="submit" value={submitBtnText}></button>
+      <input type="submit" value={submitBtnText} />
     </form>
   );
 };

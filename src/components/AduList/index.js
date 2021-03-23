@@ -4,6 +4,7 @@ import AduItem from '../AduItem';
 import AduForm from '../AduForm';
 
 const DEFAULT_ADU = {
+  id: Math.random(),
   firstName: '',
   lastName: '',
   address: '',
@@ -19,26 +20,11 @@ const AduList = () => {
   const [ActiveAdu, setActiveAdu] = useState(null);
 
   const updateAduList = (values) => {
-    if (AduList.filter((adu) => adu.id === values.id).length > 0) {
-      setAduList({ ...AduList, values });
-    } else {
-      setAduList([
-        ...AduList,
-        {
-          id: AduList.length,
-          firstName: values.firstName,
-          lastName: values.lastName,
-          address: values.lastName,
-          br: values.br,
-          ba: values.ba,
-          sqft: values.sqft,
-          price: values.price,
-        },
-      ]);
+    console.log({ values });
+    setAduList([...AduList, values.values]);
 
-      if (AduFormVisibility) {
-        setAduFormVisibilty(false);
-      }
+    if (AduFormVisibility) {
+      setAduFormVisibilty(false);
     }
 
     console.log({ AduList });

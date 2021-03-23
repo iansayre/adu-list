@@ -39,9 +39,8 @@ const useCustomForm = ({ initialValues, onSubmit }) => {
     e.preventDefault();
     setErrors({ ...errors });
     onSubmit({ values, errors });
+    setValues(initialValues);
   };
-
-  console.log({ values });
 
   return {
     values,
