@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import uniqid from 'uniqid';
 
 const AduForm = (props) => {
-  const { handleChange, handleSubmit, values, submitBtnText } = props;
+  const { handleChange, handleSubmit, values, updateOrAdd } = props;
+
+  useEffect(() => {
+    if (updateOrAdd === 'ADD') {
+      values.id = uniqid();
+    }
+  }, []);
+
   return (
     <form onSubmit={handleSubmit}>
-      <input type="hidden" value={values.id} />
+      <input
+        id="id-field"
+        type="hidden"
+        onInput={handleChange}
+        value={values.id}
+      />
       <>
         <label>First Name</label>
         <input
@@ -76,7 +89,10 @@ const AduForm = (props) => {
         />
       </>
 
-      <input type="submit" value={submitBtnText} />
+      <input
+        type="submit"
+        value={updateOrAdd === 'UPDATE' ? 'Update' : 'Submit'}
+      />
     </form>
   );
 };

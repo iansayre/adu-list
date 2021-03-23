@@ -4,7 +4,7 @@ import AduItem from '../AduItem';
 import AduForm from '../AduForm';
 
 const DEFAULT_ADU = {
-  id: Math.random(),
+  id: '',
   firstName: '',
   lastName: '',
   address: '',
@@ -17,7 +17,8 @@ const DEFAULT_ADU = {
 const AduList = () => {
   const [AduList, setAduList] = useState([]);
   const [AduFormVisibility, setAduFormVisibilty] = useState(false);
-  const [ActiveAdu, setActiveAdu] = useState(null);
+  const [ActiveAdu, setActiveAdu] = useState(DEFAULT_ADU);
+  const [updateOrAdd, setUpdateOrAdd] = useState('ADD');
 
   const updateAduList = (values) => {
     console.log({ values });
@@ -27,20 +28,23 @@ const AduList = () => {
       setAduFormVisibilty(false);
     }
 
-    if (ActiveAdu) {
-      setActiveAdu(null);
+    if (updateOrAdd === 'UPDATE') {
+      setUpdateOrAdd('ADD');
     }
 
-    console.log({ AduList });
+    setActiveAdu(DEFAULT_ADU);
+
+    console.log({ AduList, ActiveAdu });
   };
 
   const editAdu = (id) => {
+    setUpdateOrAdd('UPDATE');
     setActiveAdu(AduList.filter((adu) => adu.id === id)[0]);
     setAduFormVisibilty(true);
   };
 
   const removeAdu = (id) => {
-    setAduList(AduList.filter((adu) => adu.id !== id));
+    setAduList((prevAduList) => prevAduList.filter((adu) => adu.id !== id));
   };
 
   const {
@@ -51,7 +55,7 @@ const AduList = () => {
     handleBlur,
     handleSubmit,
   } = useCustomForm({
-    initialValues: ActiveAdu ? ActiveAdu : DEFAULT_ADU,
+    initialValues: ActiveAdu,
     onSubmit: (values) => {
       updateAduList(values);
     },
@@ -80,7 +84,7 @@ const AduList = () => {
           handleChange={handleChange}
           handleSubmit={handleSubmit}
           values={values}
-          submitText={ActiveAdu ? 'Update' : 'Submit'}
+          updateOrAdd={updateOrAdd}
         />
       )}
     </div>

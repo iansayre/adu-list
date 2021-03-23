@@ -18,6 +18,10 @@ const useCustomForm = ({ initialValues, onSubmit }) => {
       setOnBlur(false);
     }
     formRendered.current = false;
+
+    const cleanup = () => setValues(initialValues);
+
+    return cleanup;
   }, [initialValues]);
 
   const handleBlur = (e) => {
