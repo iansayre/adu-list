@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
-const useCustomForm = ({ initalValues, onSubmit }) => {
-  const [values, setValues] = useState(initalValues || {});
+const useCustomForm = ({ initialValues, onSubmit }) => {
+  const [values, setValues] = useState(initialValues || {});
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [onSubmitting, setOnSubmitting] = useState(false);
@@ -11,14 +11,14 @@ const useCustomForm = ({ initalValues, onSubmit }) => {
 
   useEffect(() => {
     if (formRendered.current) {
-      setValues(initalValues);
+      setValues(initialValues);
       setErrors([]);
       setTouched({});
       setOnSubmitting(false);
       setOnBlur(false);
     }
     formRendered.current = false;
-  }, [initalValues]);
+  }, [initialValues]);
 
   const handleBlur = (e) => {
     const { target } = e;
@@ -40,6 +40,8 @@ const useCustomForm = ({ initalValues, onSubmit }) => {
     setErrors({ ...errors });
     onSubmit({ values, errors });
   };
+
+  console.log({ values });
 
   return {
     values,

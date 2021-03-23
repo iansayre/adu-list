@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
+import useCustomForm from '../../hooks/useCustomForm';
 import AduItem from '../AduItem';
 import AduForm from '../AduForm';
 
-const FIRST_ADU = {
-  id: 0,
-  firstName: 'Foo',
-  lastName: 'bar',
-  address: '123 Any St. USA',
-  br: 3,
-  ba: 2,
-  sqft: 1200,
-  price: 150000,
+const DEFAULT_ADU = {
+  firstName: '',
+  lastName: '',
+  address: '',
+  br: '',
+  ba: '',
+  sqft: '',
+  price: '',
 };
 
 const AduList = () => {
@@ -18,39 +18,54 @@ const AduList = () => {
   const [AduFormVisibility, setAduFormVisibilty] = useState(false);
   const [ActiveAdu, setActiveAdu] = useState(null);
 
-  const updateAduList = (e) => {
-    e.preventDefault();
-
-    console.log({ form: e.target });
-
-    if (AduList.filter((adu) => adu.id === e.id).length > 0) {
+  const updateAduList = (values) => {
+    if (AduList.filter((adu) => adu.id === values.id).length > 0) {
+      setAduList({ ...AduList, values });
     } else {
       setAduList([
         ...AduList,
         {
           id: AduList.length,
-          firstName: e.target.firstName,
-          lastName: e.target.lastName,
-          address: e.target.lastName,
-          br: e.target.br,
-          ba: e.target.ba,
-          sqft: e.target.sqft,
-          price: e.target.price,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          address: values.lastName,
+          br: values.br,
+          ba: values.ba,
+          sqft: values.sqft,
+          price: values.price,
         },
       ]);
-      setAduFormVisibilty(false);
+
+      if (AduFormVisibility) {
+        setAduFormVisibilty(false);
+      }
     }
 
     console.log({ AduList });
   };
 
   const editAdu = (id) => {
-    setActiveAdu(AduList.filter((adu) => adu.id === id));
+    setActiveAdu(AduList.filter((adu) => adu.id === id)[0]);
+    setAduFormVisibilty(true);
   };
 
   const removeAdu = (id) => {
     setAduList((prevAduList) => prevAduList.filter((adu) => adu.id !== id));
   };
+
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  } = useCustomForm({
+    initialValues: DEFAULT_ADU,
+    onSubmit: (values) => {
+      updateAduList(values);
+    },
+  });
 
   return (
     <div className="adu-container">
@@ -72,9 +87,10 @@ const AduList = () => {
       </ul>
       {AduFormVisibility && (
         <AduForm
-          adu={ActiveAdu ? ActiveAdu : {}}
-          handleSubmit={updateAduList}
-          subitButtonValue={ActiveAdu ? 'Update' : 'Submit'}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          values={values}
+          submitText={ActiveAdu ? 'Update' : 'Submit'}
         />
       )}
     </div>
