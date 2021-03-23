@@ -27,6 +27,10 @@ const AduList = () => {
       setAduFormVisibilty(false);
     }
 
+    if (ActiveAdu) {
+      setActiveAdu(null);
+    }
+
     console.log({ AduList });
   };
 
@@ -36,7 +40,7 @@ const AduList = () => {
   };
 
   const removeAdu = (id) => {
-    setAduList((prevAduList) => prevAduList.filter((adu) => adu.id !== id));
+    setAduList(AduList.filter((adu) => adu.id !== id));
   };
 
   const {
@@ -47,7 +51,7 @@ const AduList = () => {
     handleBlur,
     handleSubmit,
   } = useCustomForm({
-    initialValues: DEFAULT_ADU,
+    initialValues: ActiveAdu ? ActiveAdu : DEFAULT_ADU,
     onSubmit: (values) => {
       updateAduList(values);
     },
@@ -67,7 +71,7 @@ const AduList = () => {
       <ul className="adu-list">
         {AduList.map((adu) => (
           <li key={adu.id}>
-            <AduItem adu={adu} />
+            <AduItem adu={adu} handleEdit={editAdu} handleRemove={removeAdu} />
           </li>
         ))}
       </ul>

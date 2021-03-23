@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const AduItem = (props) => {
-  const { firstName, lastName, address, br, ba, sqft, price } = props.adu;
+  const { id, firstName, lastName, address, br, ba, sqft, price } = props.adu;
   return (
     <div className="adu-item">
       <h4>
@@ -15,12 +15,30 @@ const AduItem = (props) => {
         <span>Sqft: {sqft}</span>
         <span>Price: ${price}</span>
       </div>
+      <div className="edit-btns">
+        <button
+          onClick={(id) => {
+            props.handleEdit(id);
+          }}
+        >
+          Edit
+        </button>
+        <button
+          onClick={(id) => {
+            props.handleRemove(id);
+          }}
+        >
+          Remove
+        </button>
+      </div>
     </div>
   );
 };
 
 AduItem.propTypes = {
   adu: PropTypes.object,
+  handleEdit: PropTypes.func,
+  handleRemove: PropTypes.func,
 };
 
 export default AduItem;
